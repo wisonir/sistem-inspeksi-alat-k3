@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K3 Inspector | System Checklist</title>
+  
+  <!-- Google Font & Favicon -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+
+    body { 
+      background: radial-gradient(circle at 50% 30%, #1e1b2e 0%, #111827 50%, #090d16 100%);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Container Layar Splash */
+    .splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+    }
+
+    /* Logo Badge K3 Inspector Container */
+    .brand-icon-wrapper {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      background: rgba(225, 29, 72, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6),
+                  0 0 25px rgba(225, 29, 72, 0.3);
+      margin-bottom: 1.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .brand-icon-wrapper svg {
+      width: 48px;
+      height: 48px;
+      fill: #e11d48;
+      filter: drop-shadow(0 2px 8px rgba(225, 29, 72, 0.5));
+    }
+
+    /* Teks Judul & Subtitle */
+    .splash-title {
+      color: #ffffff;
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      line-height: 1.2;
+    }
+
+    .splash-title span {
+      color: #f43f5e;
+    }
+
+    .splash-sub {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-top: 0.4rem;
+    }
+
+    /* Progress Loader Modern */
+    .loader-container {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 3.5px solid rgba(244, 63, 94, 0.2);
+      border-top-color: #f43f5e;
+      border-right-color: #e11d48;
+      border-radius: 50%;
+      animation: spin 0.85s cubic-bezier(0.55, 0.25, 0.25, 0.7) infinite;
+    }
+
+    .loading-status {
+      font-size: 0.8rem;
+      color: #fda4af;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Animasi */
+    @keyframes spin { 
+      to { transform: rotate(360deg); } 
+    }
+
+    @keyframes float { 
+      0%, 100% { transform: translateY(0px); } 
+      50% { transform: translateY(-6px); } 
+    }
+
+    /* Tampilan Iframe */
+    iframe {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Layar Splash Screen -->
+  <div class="splash" id="splash">
+    <!-- Ikon Perisai K3 Inspector -->
+    <div class="brand-icon-wrapper">
+      <svg viewBox="0 0 24 24">
+        <!-- Bentuk Perisai Merah K3 -->
+        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
+        <path d="M12 4.18v15.73c3.55-1.04 6.16-4.8 6.16-8.91V6.32L12 4.18z" fill="#f43f5e" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- Teks Branding -->
+    <h1 class="splash-title">K3 <span>INSPECTOR</span></h1>
+    <p class="splash-sub">System Checklist</p>
+
+    <!-- Loading Indicator -->
+    <div class="loader-container">
+      <div class="spinner"></div>
+      <span class="loading-status">Memuat Portal...</span>
+    </div>
+  </div>
+
+  <!-- Google Apps Script / App Iframe -->
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycbwyHSRgVL1ubiTbVELXaPxR5kSmzuBHBK7Xl8OC3_fjbz50xgHCKkbIQrIvN4RuhXac/exec"
+    allowfullscreen
+    onload="frameLoaded()">
+  </iframe>
+
+  <script>
+    function frameLoaded() {
+      const splash = document.getElementById("splash");
+      const appFrame = document.getElementById("appFrame");
+      
+      // Animasi Fade Out Halus
+      splash.style.opacity = "0";
+      setTimeout(() => {
+        splash.style.display = "none";
+        appFrame.style.display = "block";
+      }, 600);
+    }
+  </script>
+
+</body>
+</html>
